@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Confirm from './Confirm';
 
 class App extends Component {
-  render() {
+  public render() {
     return (
       <div className="App">
         <header className="App-header">
@@ -20,6 +21,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <Confirm title="React and TypeScript" content="Are you sure you want to learn React and TypeScript?" cancelCaption="No way" okCaption="Yes please!" />
       </div>
     );
   }
