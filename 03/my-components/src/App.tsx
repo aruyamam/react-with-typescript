@@ -100,7 +100,7 @@ class App extends Component<{}, IState> {
   }
 
   public render() {
-    const { confirmOpen, confirmMessage, confirmVisible } = this.state;
+    const { countDown, confirmOpen, confirmMessage, confirmVisible } = this.state;
 
     return (
       <div className="App">
@@ -122,15 +122,19 @@ class App extends Component<{}, IState> {
         {confirmVisible && (
           <button onClick={this.handleConfirmClick}>Confirm</button>
         )}
-        <Confirm
-          open={confirmOpen}
-          title="React and TypeScript"
-          content="Are you sure you want to learn React and TypeScript?" 
-          cancelCaption="No way"
-          okCaption="Yes please!"
-          onCancelClick={this.handleCancelConfirmClick}
-          onOkClick={this.handleOkConfirmClick}
-        />
+        {
+          countDown > 0 && (
+            <Confirm
+              open={confirmOpen}
+              title="React and TypeScript"
+              content="Are you sure you want to learn React and TypeScript?" 
+              cancelCaption="No way"
+              okCaption="Yes please!"
+              onCancelClick={this.handleCancelConfirmClick}
+              onOkClick={this.handleOkConfirmClick}
+            />
+          )
+        }
       </div>
     );
   }
