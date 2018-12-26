@@ -19,6 +19,42 @@ code {
   font-size: large;
 }
 
+.header {
+  height: 180px;
+  padding: 20px;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+}
+
+.header-logo {
+  height: 80px;
+  animation: header-logo-spin infinite 20s linear;
+}
+
+@keyframes header-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.header-title {
+  font-size: 1.5em;
+}
+
+.header-link {
+  padding: 5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.header-link-active {
+  border-bottom: 2px solid #ebebeb;
+}
+
 .product-list {
   margin: 0;
   padding: 0;
