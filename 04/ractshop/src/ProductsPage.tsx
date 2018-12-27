@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { IProduct, products } from './ProductsData';
 
 interface IState {
@@ -30,7 +31,7 @@ class PorductsPage extends React.Component<{}, IState> {
             <ul className="product-list">
                {products.map(product => (
                   <li key={product.id} className="product-list-item">
-                     {product.name}
+                     <Link to={`/products/${product.id}`}>{product.name}</Link>
                   </li>
                ))}
             </ul>
