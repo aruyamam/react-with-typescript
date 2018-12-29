@@ -1,17 +1,33 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { IProduct, products } from './ProductsData';
+import 'url-search-params-polyfill';
 
 interface IState {
    products: IProduct[];
+   search: string;
 }
 
-class PorductsPage extends React.Component<{}, IState> {
-   public constructor(props: {}) {
+class PorductsPage extends React.Component<RouteComponentProps, IState> {
+   public static getDerivedStateFromProps(
+      props: RouteComponentProps,
+      state: IState
+   ) {
+      const searchParams = new URLSearchParams(props.location.search);
+      const search = searchParams.get('search') || '';
+
+      return {
+         products: state.products,
+         search
+      };
+   }
+
+   public constructor(props: RouteComponentProps) {
       super(props);
 
       this.state = {
-         products: []
+         products: [],
+         search: ''
       };
    }
 
@@ -20,7 +36,7 @@ class PorductsPage extends React.Component<{}, IState> {
    }
 
    public render() {
-      const { products } = this.state;
+      const { products, search } = this.state;
 
       return (
          <div className="page-container">
@@ -29,11 +45,25 @@ class PorductsPage extends React.Component<{}, IState> {
                ReactJS!
             </p>
             <ul className="product-list">
-               {products.map(product => (
-                  <li key={product.id} className="product-list-item">
-                     <Link to={`/products/${product.id}`}>{product.name}</Link>
-                  </li>
-               ))}
+               {products.map(product => {
+                  if (
+                     !search ||
+                     (search &&
+                        product.name
+                           .toLowerCase()
+                           .indexOf(search.toLowerCase()) > -1)
+                  ) {
+                     return (
+                        <li key={product.id} className="product-list-item">
+                           <Link to={`/products/${product.id}`}>
+                              {product.name}
+                           </Link>
+                        </li>
+                     );
+                  } else {
+                     return null;
+                  }
+               })}
             </ul>
          </div>
       );

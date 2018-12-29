@@ -68,3 +68,8 @@ code {
 .product-list-item a {
   text-decoration: none;
 }
+
+.search-container {
+  margin-bottom: -25px;
+  text-align: right;
+}
