@@ -25,7 +25,7 @@ const Routes: React.SFC = () => {
                <Route exact={true} path="/products" component={ProductsPage} />
                <Route path="/products/:id" component={ProductPage} />
                <Route path="/admin">
-                  {loggedIn ? <AdminPage /> : <Redirect to="/login" />}
+                  {!loggedIn ? <AdminPage /> : <Redirect to="/login" />}
                </Route>
                <Route path="/login" component={LoginPage} />
                <Route component={NotFoundPage} />

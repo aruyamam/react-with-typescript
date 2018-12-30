@@ -73,3 +73,23 @@ code {
   margin-bottom: -25px;
   text-align: right;
 }
+
+.admin-sections {
+  margin: 0 0 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-sections li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.admin-sections li a {
+  color: #222;
+  text-decoration: none;
+}
+
+.admin-link-active {
+  border-bottom: 6px solid #6f6e6e;
+}
