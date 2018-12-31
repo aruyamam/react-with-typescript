@@ -93,3 +93,17 @@ code {
 .admin-link-active {
   border-bottom: 6px solid #6f6e6e;
 }
+
+.animate-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.animate-enter-active {
+  opacity: 1;
+  transition: opacity 450ms eas-in;
+}
+
+.animate-exit {
+  display: none;
+}

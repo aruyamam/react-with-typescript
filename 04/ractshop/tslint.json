@@ -1,9 +1,5 @@
 {
-   "extends": [
-      "tslint:recommended",
-      "tslint-react",
-      "tslint-config-prettier"
-   ],
+   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
    "rules": {
       "ordered-imports": false,
       "object-literal-sort-keys": false,
@@ -14,7 +10,8 @@
       "exclude": [
          "config/**/*.js",
          "node_modules/**/*.ts",
-         "coverage/lcov-report/*.js"
+         "coverage/lcov-report/*.js",
+         "samples"
       ]
    }
 }

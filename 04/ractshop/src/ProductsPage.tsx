@@ -36,7 +36,7 @@ class PorductsPage extends React.Component<RouteComponentProps, IState> {
    }
 
    public render() {
-      const { products, search } = this.state;
+      const { search } = this.state;
 
       return (
          <div className="page-container">
@@ -45,7 +45,7 @@ class PorductsPage extends React.Component<RouteComponentProps, IState> {
                ReactJS!
             </p>
             <ul className="product-list">
-               {products.map(product => {
+               {this.state.products.map(product => {
                   if (
                      !search ||
                      (search &&
