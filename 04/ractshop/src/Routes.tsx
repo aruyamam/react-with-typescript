@@ -1,4 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+
+// @ts-ignore
+import { Suspense } from 'react';
+
 import {
    BrowserRouter as Router,
    Redirect,
@@ -9,11 +13,12 @@ import {
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Header from './Header';
-import AdminPage from './AdominPage';
 import ProductsPage from './ProductsPage';
 import ProductPage from './ProductPage';
 import NotFoundPage from './NotFoundPage';
 import LoginPage from './LoginPage';
+
+const AdminPage = React.lazy(() => import('./AdominPage'));
 
 const RoutesWrap: React.SFC = () => (
    <Router>
@@ -22,7 +27,7 @@ const RoutesWrap: React.SFC = () => (
 );
 
 const Routes: React.SFC<RouteComponentProps> = ({ location }) => {
-   const [loggedIn, setLoggedIn] = React.useState(false);
+   const [loggedIn, setLoggedIn] = React.useState(true);
 
    return (
       <div>
@@ -42,7 +47,17 @@ const Routes: React.SFC<RouteComponentProps> = ({ location }) => {
                   />
                   <Route path="/products/:id" component={ProductPage} />
                   <Route path="/admin">
-                     {loggedIn ? <AdminPage /> : <Redirect to="/login" />}
+                     {loggedIn ? (
+                        <Suspense
+                           fallback={
+                              <div className="page-container">Loading...</div>
+                           }
+                        >
+                           <AdminPage />
+                        </Suspense>
+                     ) : (
+                        <Redirect to="/login" />
+                     )}
                   </Route>
                   <Route path="/login" component={LoginPage} />
                   <Route component={NotFoundPage} />
