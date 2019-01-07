@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 interface ITabsContext {
    activeName?: string;
-   handleTabClick?: (name: string) => void;
+   handleTabClick?: (name: string, content: React.ReactNode) => void;
 }
 
 const TabsContext = React.createContext<ITabsContext>({});
@@ -15,16 +15,26 @@ interface IState {
 interface ITabProps {
    name: string;
    initialActive?: boolean;
+   heading: () => string | JSX.Element;
 }
 
 class Tabs extends Component<{}, IState> {
    public static Tab: React.SFC<ITabProps> = ({
       initialActive,
       name,
+      heading,
       children
    }) => (
       <TabsContext.Consumer>
          {(context: ITabsContext) => {
+            if (!context.activeName && initialActive) {
+               if (context.handleTabClick) {
+                  context.handleTabClick(name, children);
+
+                  return null;
+               }
+            }
+
             const activeName = context.activeName
                ? context.activeName
                : initialActive
@@ -32,7 +42,7 @@ class Tabs extends Component<{}, IState> {
                : '';
             const handleTabClick = (e: React.MouseEvent<HTMLLIElement>) => {
                if (context.handleTabClick) {
-                  context.handleTabClick(name);
+                  context.handleTabClick(name, children);
                }
             };
 
@@ -41,7 +51,7 @@ class Tabs extends Component<{}, IState> {
                   onClick={handleTabClick}
                   className={name === activeName ? 'active' : ''}
                >
-                  {children}
+                  {heading()}
                </li>
             );
          }}
@@ -59,12 +69,13 @@ class Tabs extends Component<{}, IState> {
             }}
          >
             <ul className="tabs">{children}</ul>
+            <div>{this.state && this.state.activeContent}</div>
          </TabsContext.Provider>
       );
    }
 
-   private handleTabClick = (name: string) => {
-      this.setState({ activeName: name });
+   private handleTabClick = (name: string, content: React.ReactNode) => {
+      this.setState({ activeName: name, activeContent: content });
    };
 }
 

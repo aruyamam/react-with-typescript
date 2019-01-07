@@ -14,7 +14,7 @@ export interface IProduct {
 export const products: IProduct[] = [
    {
       description:
-         'A collection of navigational ocmponents that compose declaratively with your app',
+         'A collection of navigational components that compose declaratively with your app',
       id: 1,
       name: 'React Router',
       price: 8,
