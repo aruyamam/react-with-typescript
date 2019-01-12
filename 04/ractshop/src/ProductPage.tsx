@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Prompt, RouteComponentProps } from 'react-router-dom';
-import { IProduct, products } from './ProductsData';
+import { getProduct, IProduct } from './ProductsData';
 import Product from './Product';
 
 type Props = RouteComponentProps<{ id: string }>;
@@ -8,6 +8,7 @@ type Props = RouteComponentProps<{ id: string }>;
 interface IState {
    product?: IProduct;
    added: boolean;
+   loading: boolean;
 }
 
 class ProductPage extends Component<Props, IState> {
@@ -15,29 +16,33 @@ class ProductPage extends Component<Props, IState> {
       super(props);
 
       this.state = {
-         added: false
+         added: false,
+         loading: true
       };
    }
 
-   public componentDidMount() {
+   public async componentDidMount() {
       const { match } = this.props;
 
       if (match.params.id) {
          const id: number = parseInt(match.params.id, 10);
-         const product = products.filter(p => p.id === id)[0];
+         const product = await getProduct(id);
 
-         this.setState({ product });
+         if (product !== null) {
+            this.setState({ product, loading: false });
+         }
       }
    }
 
    public render() {
-      const { added, product } = this.state;
+      const { added, product, loading } = this.state;
 
       return (
          <div className="page-container">
             <Prompt when={!added} message={this.navAwayMessage} />
-            {product ? (
+            {product || loading ? (
                <Product
+                  loading={loading}
                   product={product}
                   inBasket={added}
                   onAddToBasket={this.handleAddClick}
