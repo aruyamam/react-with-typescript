@@ -30,16 +30,7 @@ class ContactUsPage extends Component<{}, IState> {
                If you enter your details we'll get back to you as soon as we
                can.
             </p>
-            <ContactUs
-               name={name}
-               onNameChange={this.handleNameChange}
-               email={email}
-               onEmailChange={this.handleEmailChange}
-               reason={reason}
-               onReasonChange={this.handleReasonChange}
-               notes={notes}
-               onNotesChange={this.handleNotesChange}
-            />
+            <ContactUs />
          </div>
       );
    }
