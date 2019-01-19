@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ContactUs from './ContactUs';
+import { IValues, ISubmitResult } from './Form';
 
 interface IState {
    name: string;
@@ -7,6 +8,10 @@ interface IState {
    reason: string;
    notes: string;
 }
+
+const wait = (ms: number): Promise<void> => {
+   return new Promise(resolve => setTimeout(resolve, ms));
+};
 
 class ContactUsPage extends Component<{}, IState> {
    public constructor(props: {}) {
@@ -30,25 +35,20 @@ class ContactUsPage extends Component<{}, IState> {
                If you enter your details we'll get back to you as soon as we
                can.
             </p>
-            <ContactUs />
+            <ContactUs onSubmit={this.handleSubmit} />
          </div>
       );
    }
 
-   private handleNameChange = (name: string) => {
-      this.setState({ name });
-   };
+   private handleSubmit = async (values: IValues): Promise<ISubmitResult> => {
+      await wait(1000);
 
-   private handleEmailChange = (email: string) => {
-      this.setState({ email });
-   };
-
-   private handleReasonChange = (reason: string) => {
-      this.setState({ reason });
-   };
-
-   private handleNotesChange = (notes: string) => {
-      this.setState({ notes });
+      return {
+         // errors: {
+         //    email: ['Some is wrong with this']
+         // },
+         success: true
+      };
    };
 }
 
