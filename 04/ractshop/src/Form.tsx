@@ -63,7 +63,7 @@ export interface IValues {
 interface IFieldProps {
    name: string;
    label: string;
-   type?: 'Text' | 'Email' | 'Select' | 'TextArea';
+   type?: 'Text' | 'Email' | 'Select' | 'TextArea' | 'Number';
    options?: string[];
 }
 
@@ -92,7 +92,7 @@ export class Form extends Component<IFormProps, IState> {
          context: IFormContext
       ) => {
          if (context.setValue) {
-            context.setValue(props.name, e.currentTarget.value);
+            context.setValue(name, e.currentTarget.value);
          }
       };
 
@@ -113,7 +113,9 @@ export class Form extends Component<IFormProps, IState> {
             {context => (
                <div className="form-group">
                   <label htmlFor={name}>{label}</label>
-                  {(type === 'Text' || type === 'Email') && (
+                  {(type === 'Text' ||
+                     type === 'Email' ||
+                     type === 'Number') && (
                      <input
                         type={type.toLowerCase()}
                         id={name}

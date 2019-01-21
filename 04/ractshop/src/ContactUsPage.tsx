@@ -7,6 +7,7 @@ interface IState {
    email: string;
    reason: string;
    notes: string;
+   age: string;
 }
 
 const wait = (ms: number): Promise<void> => {
@@ -14,20 +15,7 @@ const wait = (ms: number): Promise<void> => {
 };
 
 class ContactUsPage extends Component<{}, IState> {
-   public constructor(props: {}) {
-      super(props);
-
-      this.state = {
-         email: '',
-         name: '',
-         reason: '',
-         notes: ''
-      };
-   }
-
    public render() {
-      const { name, email, reason, notes } = this.state;
-
       return (
          <div className="page-container">
             <h1>Contact Us</h1>

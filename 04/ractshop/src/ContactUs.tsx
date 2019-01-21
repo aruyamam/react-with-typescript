@@ -14,7 +14,13 @@ const ContactUs: React.SFC<IProps> = props => {
 
    return (
       <Form
-         defaultValues={{ name: '', email: '', reason: 'Support', notes: '' }}
+         defaultValues={{
+            name: '',
+            email: '',
+            age: '',
+            reason: 'Support',
+            notes: ''
+         }}
          validationRules={{
             email: { validator: required },
             name: [{ validator: required }, { validator: minLength, arg: 2 }]
@@ -23,6 +29,7 @@ const ContactUs: React.SFC<IProps> = props => {
       >
          <Form.Field name="name" label="Your name" />
          <Form.Field name="email" label="Your email address" type="Email" />
+         <Form.Field name="age" label="Your age" type="Number" />
          <Form.Field
             name="reason"
             label="Reason you need to contact us"
