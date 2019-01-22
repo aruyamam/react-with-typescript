@@ -1,5 +1,12 @@
 import React from 'react';
-import { Form, ISubmitResult, IValues, minLength, required } from './Form';
+import {
+   between,
+   Form,
+   ISubmitResult,
+   IValues,
+   minLength,
+   required
+} from './Form';
 
 interface IProps {
    onSubmit: (values: IValues) => Promise<ISubmitResult>;
@@ -17,13 +24,15 @@ const ContactUs: React.SFC<IProps> = props => {
          defaultValues={{
             name: '',
             email: '',
-            age: '',
+            age: 0,
             reason: 'Support',
-            notes: ''
+            notes: '',
+            urgency: 0
          }}
          validationRules={{
             email: { validator: required },
-            name: [{ validator: required }, { validator: minLength, arg: 2 }]
+            name: [{ validator: required }, { validator: minLength, arg: 2 }],
+            urgency: [{ validator: between, arg: { lower: 1, upper: 10 } }]
          }}
          onSubmit={handleSubmit}
       >
@@ -37,6 +46,11 @@ const ContactUs: React.SFC<IProps> = props => {
             options={['Marketing', 'Support', 'Feedback', 'Jobs', 'Other']}
          />
          <Form.Field name="notes" label="Additional notes" type="TextArea" />
+         <Form.Field
+            name="urgency"
+            label="How urgent is a response?"
+            type="Number"
+         />
       </Form>
    );
 };

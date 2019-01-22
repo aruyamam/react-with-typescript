@@ -47,6 +47,16 @@ export const minLength: Validator = (
       ? `This must be at least ${length} characters`
       : '';
 
+export const between: Validator = (
+   fieldName: string,
+   values: IValues,
+   bounds: { lower: number; upper: number }
+): string =>
+   values[fieldName] &&
+   (values[fieldName] < bounds.lower || values[fieldName] > bounds.upper)
+      ? `This must be between ${bounds.lower} and ${bounds.upper}`
+      : '';
+
 interface IValidation {
    validator: Validator;
    arg?: any;
@@ -73,11 +83,16 @@ interface IFormProps {
    onSubmit: (values: IValues) => Promise<ISubmitResult>;
 }
 
+interface ITouched {
+   [key: string]: boolean;
+}
+
 interface IState {
    values: IValues;
    errors: IErrors;
    submitting: boolean;
    submitted: boolean;
+   touched: ITouched;
 }
 
 export class Form extends Component<IFormProps, IState> {
@@ -165,14 +180,17 @@ export class Form extends Component<IFormProps, IState> {
       super(props);
 
       const errors: IErrors = {};
+      const touched: ITouched = {};
       Object.keys(props.defaultValues).forEach(fieldName => {
          errors[fieldName] = [];
+         touched[fieldName] = false;
       });
 
       this.state = {
          errors,
          submitted: false,
          submitting: false,
+         touched,
          values: props.defaultValues
       };
    }
@@ -208,13 +226,17 @@ export class Form extends Component<IFormProps, IState> {
 
    private setValue = (fieldName: string, value: any) => {
       const newValues = { ...this.state.values, [fieldName]: value };
-      this.setState({ values: newValues });
+      const newTouched = { ...this.state.touched, [fieldName]: true };
+      this.setState({ values: newValues, touched: newTouched });
    };
 
    private validate = (fieldName: string, value: any): string[] => {
       const rules = this.props.validationRules[fieldName];
       const errors: string[] = [];
 
+      if (!this.state.touched[fieldName]) {
+         return [];
+      }
       if (Array.isArray(rules)) {
          rules.forEach(rule => {
             const error = rule.validator(
