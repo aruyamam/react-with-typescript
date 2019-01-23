@@ -1,42 +1,26 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { IProduct, products } from './ProductsData';
+import { connect } from 'react-redux';
+import { IProduct } from './ProductsData';
 import 'url-search-params-polyfill';
+import { IApplicationState } from './Store';
+import { getProducts } from './ProductsActions';
 
-interface IState {
+interface IProps extends RouteComponentProps {
+   getProducts: typeof getProducts;
+   loading: boolean;
    products: IProduct[];
-   search: string;
 }
 
-class PorductsPage extends React.Component<RouteComponentProps, IState> {
-   public static getDerivedStateFromProps(
-      props: RouteComponentProps,
-      state: IState
-   ) {
-      const searchParams = new URLSearchParams(props.location.search);
-      const search = searchParams.get('search') || '';
-
-      return {
-         products: state.products,
-         search
-      };
-   }
-
-   public constructor(props: RouteComponentProps) {
-      super(props);
-
-      this.state = {
-         products: [],
-         search: ''
-      };
-   }
-
+class PorductsPage extends React.Component<IProps> {
    public componentDidMount() {
-      this.setState({ products });
+      this.props.getProducts();
    }
 
    public render() {
-      const { search } = this.state;
+      const { location, products } = this.props;
+      const searchParams = new URLSearchParams(location.search);
+      const search = searchParams.get('search') || '';
 
       return (
          <div className="page-container">
@@ -45,7 +29,7 @@ class PorductsPage extends React.Component<RouteComponentProps, IState> {
                ReactJS!
             </p>
             <ul className="product-list">
-               {this.state.products.map(product => {
+               {products.map(product => {
                   if (
                      !search ||
                      (search &&
@@ -70,4 +54,16 @@ class PorductsPage extends React.Component<RouteComponentProps, IState> {
    }
 }
 
-export default PorductsPage;
+const mapStateToProps = (store: IApplicationState) => ({
+   loading: store.products.productsLoading,
+   products: store.products.products
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+   getProducts: () => dispatch(getProducts())
+});
+
+export default connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(PorductsPage);

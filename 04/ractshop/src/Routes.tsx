@@ -48,7 +48,6 @@ const Routes: React.SFC<RouteComponentProps> = ({ location }) => {
                      component={ProductsPage}
                   />
                   <Route path="/contactus" component={ContactUsPage} />
-                  <Route path="/products/:id" component={ProductPage} />
                   <Route path="/admin">
                      {loggedIn ? (
                         <Suspense
