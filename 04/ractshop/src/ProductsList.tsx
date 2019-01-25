@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const ProductsList: React.SFC<IProps> = ({ search, products }) => (
-   <ul className="porduct-list">
+   <ul className="product-list">
       {products &&
          products.map(product => {
             if (
